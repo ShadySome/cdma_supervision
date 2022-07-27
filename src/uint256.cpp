@@ -24,6 +24,7 @@ std::string base_blob<BITS>::GetHex() const
 }
 
 template <unsigned int BITS>
+//little ending
 void base_blob<BITS>::SetHex(const char* psz)
 {
     memset(data, 0, sizeof(data));

@@ -414,7 +414,7 @@ static const std::array<PedersenHash, 65> pedersen_empty_roots = {
         0x96, 0x58, 0x74, 0x1b, 0x95, 0xc1, 0x5a, 0x55,
     }),
 };
-
+// depth <= 64
 PedersenHash PedersenHash::EmptyRoot(size_t depth) {
     return pedersen_empty_roots.at(depth);
 }

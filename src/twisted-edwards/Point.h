@@ -12,6 +12,11 @@ namespace NTL {
         Point();
 
         Point(ZZ &X, ZZ &Y, ZZ &Z);
+        
+        friend bool operator==(Point& a, Point& b)
+        {
+            return a.X == b.X && a.Y == b.Y;
+        }
     };
 }
 

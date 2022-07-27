@@ -944,6 +944,7 @@ public:
      * Return all currently known diversifier indices for which addresses
      * have been generated, each accompanied by the associated set of receiver
      * types that were used when generating that address.
+     * 记录当前所有生成过地址的diversifier以及生成的地址类型
      */
     const std::map<libzcash::diversifier_index_t, std::set<libzcash::ReceiverType>>& GetKnownReceiverSetsByDiversifierIndex() const {
         return addressReceivers;
@@ -1047,6 +1048,7 @@ private:
      * Used to keep track of spent outpoints, and
      * detect and report conflicts (double-spends or
      * mutated transactions where the mutant gets mined).
+     * COutPoint -> Txid
      */
     typedef TxSpendMap<COutPoint> TxSpends;
     TxSpends mapTxSpends;

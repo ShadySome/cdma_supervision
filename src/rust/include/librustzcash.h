@@ -87,7 +87,7 @@ extern "C" {
     );
 
     /// Creates a Sapling proving context. Please free this when you're done.
-    voidllibrustzcash_sapling_proving_ctx_init();
+    void llibrustzcash_sapling_proving_ctx_init();
 
     /// This function (using the proving context) constructs a Spend proof
     /// given the necessary witness information. It outputs `cv` (the value

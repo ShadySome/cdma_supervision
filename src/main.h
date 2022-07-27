@@ -404,6 +404,7 @@ bool ContextualCheckShieldedInputs(
         bool (*isInitBlockDownload)(const Consensus::Params&) = IsInitialBlockDownload);
 
 /** Check a transaction contextually against a set of consensus rules */
+//对一些版本相关的东西进行检验
 bool ContextualCheckTransaction(const CTransaction& tx, CValidationState &state,
                                 const CChainParams& chainparams, int nHeight, bool isMined,
                                 bool (*isInitBlockDownload)(const Consensus::Params&) = IsInitialBlockDownload);
@@ -416,6 +417,7 @@ void UpdateCoins(const CTransaction& tx, CCoinsViewCache& inputs, int nHeight);
 /** Context-independent validity checks */
 bool CheckTransaction(const CTransaction& tx, CValidationState& state,
                       ProofVerifier& verifier);
+//包含有一部分是对valueBalance的检测
 bool CheckTransactionWithoutProofVerification(const CTransaction& tx, CValidationState &state);
 
 namespace Consensus {

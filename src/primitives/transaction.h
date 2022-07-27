@@ -14,7 +14,7 @@
 #include "consensus/consensus.h"
 #include "consensus/params.h"
 #include "consensus/upgrades.h"
-
+#include "nlohmann/json.hpp"
 #include <array>
 #include <variant>
 
@@ -25,6 +25,7 @@
 #include <rust/ed25519/types.h>
 #include <primitives/orchard.h>
 
+#include "Point.h"
 // Overwinter transaction version group id
 static constexpr uint32_t OVERWINTER_VERSION_GROUP_ID = 0x03C48270;
 static_assert(OVERWINTER_VERSION_GROUP_ID != 0, "version group id must be non-zero as specified in ZIP 202");
@@ -776,8 +777,8 @@ public:
     const Ed25519Signature joinSplitSig;
     const binding_sig_t bindingSig = {{0}};
     /** cdma supervision info */
-    const std::vector<> v_sequence;
-    const 
+    const std::vector<NTL::Point> v_sequence;
+    const nlohmann::json cdmaProof;
 
     /** Construct a CTransaction that qualifies as IsNull() */
     CTransaction();
@@ -1019,7 +1020,10 @@ struct CMutableTransaction
     Ed25519VerificationKey joinSplitPubKey;
     Ed25519Signature joinSplitSig;
     CTransaction::binding_sig_t bindingSig = {{0}};
-
+    /** cdma supervision info */
+    const std::vector<NTL::Point> v_sequence;
+    const nlohmann::json cdmaProof;
+    
     CMutableTransaction();
     CMutableTransaction(const CTransaction& tx);
 

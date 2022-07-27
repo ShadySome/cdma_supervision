@@ -35,6 +35,9 @@
 #include "wallet/asyncrpcoperation_sendmany.h"
 #include "wallet/asyncrpcoperation_shieldcoinbase.h"
 #include "warnings.h"
+#include "twisted-edwards/Point.h"
+#include "twisted-edwards/calc.h"
+#include "supervisor/supervisor.h"
 
 #include <algorithm>
 #include <atomic>
@@ -1228,7 +1231,20 @@ bool ContextualCheckTransaction(
 
     return true;
 }
-
+bool cdmaCheck(NTL::Point M)
+{
+    vector<NTL::Point> gK; 
+    vector<NTL::Point> hK;
+    vector<NTL::ZZ> random_ks;
+    NTL::Point res(ZZ(0),ZZ(1),ZZ(0));
+    for(int i = 0;i < N; i ++)
+    {
+        res = NTL::addPoints(res,NTL::binaryMethod(tx.v_sequence[i],random_ks[i]));
+    }
+    if(res == M) return true;
+    else return false;
+}
+//对交易中 输入输出的有效性进行了检测，验证零知识证明和签名的正确性
 bool ContextualCheckShieldedInputs(
         const CTransaction& tx,
         const PrecomputedTransactionData& txdata,
@@ -1364,6 +1380,7 @@ bool ContextualCheckShieldedInputs(
                 error("ContextualCheckShieldedInputs(): Sapling binding signature invalid"),
                 REJECT_INVALID, "bad-txns-sapling-binding-signature-invalid");
         }
+        // 验证 监管的零知识证明以及well-formed
 
         librustzcash_sapling_verification_ctx_free(ctx);
     }
